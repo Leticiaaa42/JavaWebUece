@@ -41,7 +41,7 @@ public class AgendamentoController {
 		else return ResponseEntity.ok(novo_user);
 	}
 	
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<Usuario> loginUser(@RequestBody LoginForm loginform) {
 		Usuario user_logado = agendamentoService.loginUser(loginform);
 		if (user_logado == null) {
@@ -97,7 +97,7 @@ public class AgendamentoController {
 		}
 	}
 	
-	@GetMapping("/ver-avaliacoes/{nome_medico}")
+	@PostMapping("/ver-avaliacoes/{nome_medico}")
 	public ResponseEntity<ArrayList<Avaliacao>> verAvaliacoes(@RequestBody Usuario user, @PathVariable String nome_medico){
 		ArrayList<Avaliacao> resultados = agendamentoService.verAvaliacoes(user, nome_medico);
 		
@@ -132,7 +132,7 @@ public class AgendamentoController {
 		}
 	}
 	
-	@GetMapping("/pesquisar-nome/{nome}")
+	@PostMapping("/pesquisar-nome/{nome}")
 	public ResponseEntity<ArrayList<MedicoVisivel>> pesquisarPorNomeNoPlano(@RequestBody Usuario user, @PathVariable String nome){
 		ArrayList<MedicoVisivel> resposta = agendamentoService.pesquisarPorNomeNoPlano(user, nome);
 		if (resposta == null) {
@@ -143,7 +143,7 @@ public class AgendamentoController {
 		}
 	}
 	
-	@GetMapping("/pesquisar-especialidade/{especialidade_medico}")
+	@PostMapping("/pesquisar-especialidade/{especialidade_medico}")
 	public ResponseEntity<ArrayList<MedicoVisivel>> pesquisarPorEspecialidadeNoPlano(@RequestBody Usuario user, @PathVariable String especialidade_medico){
 		ArrayList<MedicoVisivel> resposta = agendamentoService.pesquisarPorEspecialidadeNoPlano(user, especialidade_medico);
 		if (resposta == null) {
