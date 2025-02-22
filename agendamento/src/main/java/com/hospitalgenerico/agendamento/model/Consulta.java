@@ -1,6 +1,9 @@
 package com.hospitalgenerico.agendamento.model;
 
-public class Consulta {
+import java.io.Serializable;
+
+public class Consulta implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String medico;
 	private String paciente;
 	private int IDmedico;
