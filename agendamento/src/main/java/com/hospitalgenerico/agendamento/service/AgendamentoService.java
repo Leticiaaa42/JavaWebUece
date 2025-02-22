@@ -54,7 +54,8 @@ import com.hospitalgenerico.agendamento.model.Usuario;
 public class AgendamentoService {
 	private List<Usuario> user_list = new ArrayList<Usuario>();
 	private List<Consulta> consulta_list = new ArrayList<Consulta>();
-	private File arquivo = new File("arquivo.txt");
+	private File user_data = new File("user_list.data");
+  private File consulta_data = new File("consulta_data.data");
 	
 	//SALVAMENTO DE ARQUIVOS--------------------------------
 	
@@ -63,34 +64,79 @@ public class AgendamentoService {
 	public AgendamentoService() {//importa dados salvos em arquivo
 		
 		try {
-			FileInputStream readData = new FileInputStream("arquivo.txt");
-			ObjectInputStream readStream = new ObjectInputStream(readData);
-
-			user_list = (ArrayList<Usuario>) readStream.readObject();
-			readStream.close();
-			
+			FileInputStream readData;
+			ObjectInputStream readStream;
+      
+      if (user_data.exists()) {
+        readData = new FileInputStream(user_data);
+        readStream = new ObjectInputStream(readData);
+        user_list = (ArrayList<Usuario>) readStream.readObject();
+        readStream.close();
+      } else
+        user_data.createNewFile();
 		}
 		catch (FileNotFoundException e){
-			//???
+      e.printStackTrace();
 		}
 		catch (Exception e) {
-			//¯\_(ツ)_/¯
+      System.out.println("Erro ao inicializar user_list");
+      e.printStackTrace();
+		}
+		
+		try {
+			FileInputStream readData;
+			ObjectInputStream readStream;
+
+      if (consulta_data.exists()) {
+        readData = new FileInputStream(consulta_data);
+        readStream = new ObjectInputStream(readData);
+        consulta_list = (ArrayList<Consulta>) readStream.readObject();
+			  readStream.close();
+      } else
+        consulta_data.createNewFile();
+		}
+		catch (FileNotFoundException e){
+      e.printStackTrace();
+		}
+		catch (Exception e) {
+      System.out.println("Erro ao inicializar consulta_list");
+      e.printStackTrace();
 		}
 	}
 	
 	private boolean salvarDados() {//salva os dados relevantes em arquivo, retorna sucesso em boolean
-		try {
-			FileOutputStream writeData = new FileOutputStream(arquivo);
-			ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
+    //Salvar usuarios
+    try {
+      FileOutputStream userData = new FileOutputStream(user_data, false);
+      ObjectOutputStream userStream = new ObjectOutputStream(userData);
+      userStream.writeObject(user_list);
+      userStream.close();
+    }
+    catch (Exception e){
+      System.out.println("Erro ao salvar dados de usuarios");
+      e.printStackTrace();
 
-			writeStream.writeObject(user_list);
-			writeStream.flush();
-			writeStream.close();
-			return true;
-		}
-		catch (Exception e){
-			return false;
-		}
+      return false;
+    }
+
+    //Salvar consultas
+    try {
+      FileOutputStream consultaData;
+      ObjectOutputStream consultaStream;
+      
+      consultaData = new FileOutputStream(consulta_data, false);
+      consultaStream = new ObjectOutputStream(consultaData);
+      consultaStream.writeObject(consulta_list);
+      consultaStream.close();
+    }
+    catch (Exception e){
+      System.out.println("Erro ao salvar dados de consultas");
+      e.printStackTrace();
+
+      return false;
+    }
+
+    return true;
 	}	
 	
 	//MANIPULAÇÃO DE USUÁRIOS---------------------------------------
