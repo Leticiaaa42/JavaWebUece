@@ -1,8 +1,10 @@
 package com.hospitalgenerico.agendamento.model;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Usuario {
+public class Usuario implements Serializable {
+	private static final long serialVersionUID = 1L;
 	protected boolean medico;
 	protected String nome;
 	protected String senha;
